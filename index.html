@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ReBuildX · Last Seen</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div>
+        <p class="kicker">ReBuildX · PS-14</p>
+        <h1>WhatsApp Last Seen — who is actually online?</h1>
+      </div>
+      <div class="metrics" id="metrics">Loading metrics…</div>
+    </header>
+
+    <main>
+      <section class="phones" id="phones"></section>
+      <aside class="explainer">
+        <h2>What this rebuilds</h2>
+        <ul>
+          <li><strong>Heartbeat</strong> proves the socket is still alive. It never fans out to contacts.</li>
+          <li><strong>Session TTL</strong> catches a dead phone that never sends a close frame.</li>
+          <li><strong>Debounce</strong> stops online/offline flapping on a 300ms reconnect.</li>
+          <li><strong>Push</strong> only fires on state change, and only to online subscribers.</li>
+          <li><strong>Multi-device</strong>: you stay online until the last session dies.</li>
+        </ul>
+        <p class="hint">
+          Demo timings are compressed (2s heartbeat, 6s TTL) so judges can see failure modes live.
+          Production WhatsApp uses longer intervals plus connection-level TCP signals.
+        </p>
+        <div class="event-log">
+          <h2>Push log (not polling)</h2>
+          <ol id="log"></ol>
+        </div>
+      </aside>
+    </main>
+    <div id="chat-modal" class="chat-modal hidden">
+      <div class="chat-container">
+        <header class="chat-header">
+          <button class="chat-back" onclick="closeChat()">←</button>
+          <div class="chat-avatar" id="chat-avatar"></div>
+          <div class="chat-user-info">
+            <h3 id="chat-name">Name</h3>
+            <div id="chat-status" class="chat-status">Online</div>
+          </div>
+        </header>
+        <div class="chat-messages" id="chat-messages">
+          <div class="message-demo-notice">Messages are ephemeral (not saved to disk).</div>
+        </div>
+        <div class="chat-input-area">
+          <button class="chat-emoji">😊</button>
+          <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off" onkeydown="if(event.key === 'Enter') sendChatMessage()" />
+          <button class="chat-send" onclick="sendChatMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>
